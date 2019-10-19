@@ -1,4 +1,5 @@
 ﻿using PhoneBook.Database;
+using PhoneBook.Database.Entities;
 using PhoneBook.Models;
 using System;
 using System.Collections.Generic;
@@ -90,6 +91,27 @@ namespace PhoneBook.Controllers
             }
 
             return Ok(contacts);
+        }
+
+        public IHttpActionResult PostContact(ContactViewModel contact)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data");
+            }
+
+            using(var context = new PhoneBookContext())
+            {
+                context.Contacts.Add(new Contact()
+                {
+                    FirstName = contact.FirstName,
+                    LastName = contact.LastName
+                });
+
+                context.SaveChanges();
+            }
+            
+            return Ok();
         }
 
     }
