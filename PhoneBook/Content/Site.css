@@ -15,3 +15,10 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.row-striped:nth-of-type(odd) {
+    background-color: #EFEFEF
+}
+.row-striped:nth-of-type(even) {
+    background-color: #FFFFFF
+}

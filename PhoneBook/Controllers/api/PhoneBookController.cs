@@ -21,7 +21,9 @@ namespace PhoneBook.Controllers
                         ContactId = x.ContactId,
                         FirstName = x.FirstName,
                         LastName = x.LastName
-                    }).ToList<ContactViewModel>();
+                    })
+                    .OrderBy(x => x.LastName)
+                    .ToList<ContactViewModel>();
 
                 if (contacts.Any())
                 {
@@ -35,7 +37,9 @@ namespace PhoneBook.Controllers
                                 EntryId = e.EntryId,
                                 Descr = e.Descr,
                                 ContactNum = e.ContactNum
-                            }).ToList<EntryViewModel>();
+                            })
+                            .OrderBy(e => e.Descr)
+                            .ToList<EntryViewModel>();
                         contact.Entries = entries.ToList<EntryViewModel>();
                     }
                 }
@@ -141,6 +145,7 @@ namespace PhoneBook.Controllers
                 {
                     FirstName = contact.FirstName,
                     LastName = contact.LastName
+                    //, Entries = (ICollection<Entry>)contact.Entries
                 });
 
                 context.SaveChanges();

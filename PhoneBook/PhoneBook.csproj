@@ -142,7 +142,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ContactsViewModel.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\EntryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -182,6 +181,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
+    <Folder Include="Views\PhoneBook\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
