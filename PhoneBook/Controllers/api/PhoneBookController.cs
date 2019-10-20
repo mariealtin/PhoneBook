@@ -94,6 +94,7 @@ namespace PhoneBook.Controllers
             return Ok(contacts);
         }
 
+        // This is for edit existing contact, not implemented 
         public IHttpActionResult GetContact(int contactId)
         {
             ContactViewModel contact = null;
@@ -139,16 +140,33 @@ namespace PhoneBook.Controllers
                 return BadRequest("Invalid data");
             }
 
+            IEnumerable<Entry> entries = null;
+            if(contact.Entries.Any())
+            {
+                entries = contact.Entries.Select(e => new Entry()
+                {
+                    Descr = e.Descr,
+                    ContactNum = e.ContactNum
+                });
+            }
+
             using(var context = new PhoneBookContext())
             {
                 context.Contacts.Add(new Contact()
                 {
                     FirstName = contact.FirstName,
-                    LastName = contact.LastName
-                    //, Entries = (ICollection<Entry>)contact.Entries
+                    LastName = contact.LastName,
+                    Entries = entries.ToList()
                 });
 
-                context.SaveChanges();
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch
+                {
+                    return BadRequest("One or more errors occurred during save");
+                }
             }
             
             return Ok();

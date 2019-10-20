@@ -10,6 +10,6 @@ namespace PhoneBook.Models
         public int ContactId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public virtual ICollection<EntryViewModel> Entries { get; set; }
+        public List<EntryViewModel> Entries { get; set; }
     }
 }

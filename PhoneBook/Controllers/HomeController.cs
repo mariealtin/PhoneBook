@@ -15,7 +15,6 @@ namespace PhoneBook.Controllers
         // GET all contacts
         public ActionResult Index(string searchTerm)
         {
-            // TODO: improve this parameter string, possibly use uribuilder
             string urlString = "";
             if (!String.IsNullOrEmpty(searchTerm))
             {
@@ -27,13 +26,13 @@ namespace PhoneBook.Controllers
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(BASE_ADDRESS);
-                
+
                 var response = client.GetAsync(urlString);
                 response.Wait();
 
                 var result = response.Result;
-                
-                if(result.IsSuccessStatusCode)
+
+                if (result.IsSuccessStatusCode)
                 {
                     var content = result.Content.ReadAsAsync<IList<ContactViewModel>>();
                     content.Wait();
@@ -50,13 +49,21 @@ namespace PhoneBook.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            // TODO: Ideally user should be able to add as many numbers as he likes, this base set is just for demo
+            var contact = new ContactViewModel();
+            contact.Entries = new List<EntryViewModel>();
+            contact.Entries.Add(new EntryViewModel { Descr = "Home" });
+            contact.Entries.Add(new EntryViewModel { Descr = "Mobile" });
+            contact.Entries.Add(new EntryViewModel { Descr = "Work" });
+            return View(contact);
         }
 
         // Create a contact
         [HttpPost]
         public ActionResult Create(ContactViewModel contact)
         {
+            contact.Entries.RemoveAll(x => String.IsNullOrEmpty(x.ContactNum));
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(BASE_ADDRESS);
@@ -65,7 +72,7 @@ namespace PhoneBook.Controllers
                 post.Wait();
 
                 var result = post.Result;
-                if(result.IsSuccessStatusCode)
+                if (result.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
