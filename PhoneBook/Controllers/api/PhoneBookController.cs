@@ -1,16 +1,13 @@
 ﻿using PhoneBook.Database;
 using PhoneBook.Database.Entities;
 using PhoneBook.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace PhoneBook.Controllers
 {
-    public class ContactController : ApiController
+    public class PhoneBookController : ApiController
     {
         public IHttpActionResult GetAllContacts()
         {
@@ -93,6 +90,44 @@ namespace PhoneBook.Controllers
             return Ok(contacts);
         }
 
+        public IHttpActionResult GetContact(int contactId)
+        {
+            ContactViewModel contact = null;
+
+            using (var context = new PhoneBookContext())
+            {
+                contact = context.Contacts
+                    .Where(x => x.ContactId == contactId)
+                    .Select(x => new ContactViewModel()
+                    {
+                        ContactId = x.ContactId,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName
+                    }).FirstOrDefault();
+
+                if (contact != null)
+                {
+                    var entries = context.Entries
+                        .Where(x => x.ContactId == contact.ContactId)
+                        .Select(e => new EntryViewModel()
+                        {
+                            ContactId = e.ContactId,
+                            EntryId = e.EntryId,
+                            Descr = e.Descr,
+                            ContactNum = e.ContactNum
+                        }).ToList<EntryViewModel>();
+                    contact.Entries = entries.ToList<EntryViewModel>();
+                }
+            }
+
+            if (contact == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(contact);
+        }
+
         public IHttpActionResult PostContact(ContactViewModel contact)
         {
             if(!ModelState.IsValid)
@@ -113,6 +148,5 @@ namespace PhoneBook.Controllers
             
             return Ok();
         }
-
     }
 }
