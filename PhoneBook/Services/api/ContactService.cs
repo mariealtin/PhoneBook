@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using PhoneBook.Database;
+﻿using PhoneBook.Database;
 using PhoneBook.Database.Entities;
 using PhoneBook.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PhoneBook.Services.api
 {
