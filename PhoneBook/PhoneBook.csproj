@@ -138,6 +138,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Database\Entities\Contact.cs" />
     <Compile Include="Database\Entities\Entry.cs" />
+    <Compile Include="Database\Mappers\ContactMapper.cs" />
+    <Compile Include="Database\Mappers\EntityMapperContext.cs" />
+    <Compile Include="Database\Mappers\EntryMapper.cs" />
+    <Compile Include="Database\Mappers\IEntityMapper.cs" />
     <Compile Include="Database\PhoneBookContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
