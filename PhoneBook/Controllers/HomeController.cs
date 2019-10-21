@@ -61,19 +61,22 @@ namespace PhoneBook.Controllers
         [HttpPost]
         public ActionResult Create(ContactViewModel contact)
         {
-            contact.Entries.RemoveAll(x => String.IsNullOrEmpty(x.ContactNum));
-
-            using (var client = new HttpClient())
+            if(ModelState.IsValid)
             {
-                client.BaseAddress = new Uri(BASE_ADDRESS);
+                contact.Entries.RemoveAll(x => String.IsNullOrEmpty(x.ContactNum));
 
-                var post = client.PostAsJsonAsync<ContactViewModel>("phonebook", contact);
-                post.Wait();
-
-                var result = post.Result;
-                if (result.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    return RedirectToAction("Index");
+                    client.BaseAddress = new Uri(BASE_ADDRESS);
+
+                    var post = client.PostAsJsonAsync<ContactViewModel>("phonebook", contact);
+                    post.Wait();
+
+                    var result = post.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
             }
 
