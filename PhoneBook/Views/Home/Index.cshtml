@@ -1,0 +1,56 @@
+﻿@model IEnumerable<PhoneBook.Models.ContactViewModel>
+   
+
+@{
+    ViewBag.Title = "PhoneBook";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Contacts</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="row space-bottom">
+        <div class="col-md-12">
+            <div class="form-inline">
+                @Html.ActionLink("Add Contact", "Create", null, new { @class = "btn btn-success space-right"})
+                @Html.TextBox("SearchTerm", null, new { @class ="form-control", placeholder = "Search name or surname"})
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@foreach (var contact in Model)
+{
+    <div class="row row-striped">
+        <div class="col-md-3">
+            <h4 style="text-align:left; vertical-align:top">
+                @Html.DisplayFor(c => contact.LastName), @Html.DisplayFor(c => contact.FirstName)
+            </h4>
+        </div>
+        <div class="col-md-9">
+            @if (!contact.Entries.Any())
+            {
+                // This was not part of AC, Edit view doesn't exist - do nothing for now
+                @Html.ActionLink("Add contact details", null)
+                @*<span style="text-align:left">
+                    @Html.ActionLink("Add contact details", "Edit", new { id = contact.ContactId})
+                </span>*@
+            }
+            @foreach (var entry in contact.Entries)
+            {
+                <span style="text-align:left">
+                    <b>@Html.DisplayFor(e => entry.ContactNum)</b>
+                    <i>(@Html.DisplayFor(e => entry.Descr))</i>
+                </span>
+                <br />
+            }
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-1">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+</div>

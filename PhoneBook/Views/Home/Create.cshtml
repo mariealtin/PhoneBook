@@ -1,0 +1,69 @@
+﻿@model PhoneBook.Models.ContactViewModel
+
+@{
+    ViewBag.Title = "Add contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.HiddenFor(x => x.ContactId);
+}
+
+<h2>Add Contact</h2>
+
+<div class="row col-md-offset-0">
+    @Html.ActionLink("Go Back", "Index")
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Entries, htmlAttributes: new { @class = "control-label col-md-2" })
+    </div>
+
+    <div class="col-md-offset-2 col-md-10">
+        @for (int i = 0; i < Model.Entries.Count; i++)
+        {
+            <div class="row">
+                <div class="col-md-3 space-right">
+                    <div class="form-group">
+                        @Html.EditorFor(e => Model.Entries[i].ContactNum, new { htmlAttributes = new { @class = "form-control", placeholder = "contact number" } })
+                        @Html.ValidationMessageFor(e => Model.Entries[i].ContactNum, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                            @Html.EditorFor(e => Model.Entries[i].Descr, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(e => Model.Entries[i].Descr, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
