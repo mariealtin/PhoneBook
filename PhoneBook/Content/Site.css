@@ -22,3 +22,11 @@ textarea {
 .row-striped:nth-of-type(even) {
     background-color: #FFFFFF
 }
+
+.space-right {
+    margin-right: 10px;
+}
+
+.space-bottom {
+    margin-bottom: 10px;
+}

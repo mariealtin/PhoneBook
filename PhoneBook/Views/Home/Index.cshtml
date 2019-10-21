@@ -7,14 +7,18 @@
 }
 
 <h2>Contacts</h2>
-<p>@Html.ActionLink("Add Contact", "Create")</p>
 
 @using (Html.BeginForm())
 {
-    <p>
-        Search by name or surname: @Html.TextBox("SearchTerm")
-        <input type="submit" value="Search" class="btn btn-default" />
-    </p>
+    <div class="row space-bottom">
+        <div class="col-md-12">
+            <div class="form-inline">
+                @Html.ActionLink("Add Contact", "Create", null, new { @class = "btn btn-success space-right"})
+                @Html.TextBox("SearchTerm", null, new { @class ="form-control", placeholder = "Search name or surname"})
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
 }
 
 @foreach (var contact in Model)

@@ -7,6 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbConnectionTest", "dbConne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook", "PhoneBook\PhoneBook.csproj", "{A748948E-ABBB-40F4-9180-D79DF6C56089}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Screenshots", "Screenshots", "{ABD394D8-65BD-4888-BD45-8DDEA1E576D4}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Users\marie\Pictures\phoneBook screenshots\add contact.PNG = ..\..\Users\marie\Pictures\phoneBook screenshots\add contact.PNG
+		..\..\Users\marie\Pictures\phoneBook screenshots\add with error.PNG = ..\..\Users\marie\Pictures\phoneBook screenshots\add with error.PNG
+		..\..\Users\marie\Pictures\phoneBook screenshots\add with success.png = ..\..\Users\marie\Pictures\phoneBook screenshots\add with success.png
+		..\..\Users\marie\Pictures\phoneBook screenshots\phonebook.PNG = ..\..\Users\marie\Pictures\phoneBook screenshots\phonebook.PNG
+		..\..\Users\marie\Pictures\phoneBook screenshots\search.PNG = ..\..\Users\marie\Pictures\phoneBook screenshots\search.PNG
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
