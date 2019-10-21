@@ -30,17 +30,19 @@
             </h4>
         </div>
         <div class="col-md-9">
-            @if(!contact.Entries.Any())
+            @if (!contact.Entries.Any())
             {
-            <span style="text-align:left">
-                @Html.ActionLink("Add contact details", "Edit", new { id = contact.ContactId})
-            </span>
+                // This was not part of AC, Edit view doesn't exist - do nothing for now
+                @Html.ActionLink("Add contact details", null)
+                @*<span style="text-align:left">
+                    @Html.ActionLink("Add contact details", "Edit", new { id = contact.ContactId})
+                </span>*@
             }
             @foreach (var entry in contact.Entries)
             {
                 <span style="text-align:left">
                     <b>@Html.DisplayFor(e => entry.ContactNum)</b>
-                    <i>(@Html.DisplayFor(e => entry.Descr))</i> 
+                    <i>(@Html.DisplayFor(e => entry.Descr))</i>
                 </span>
                 <br />
             }

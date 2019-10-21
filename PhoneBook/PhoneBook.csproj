@@ -156,6 +156,11 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Screenshots\add contact.PNG" />
+    <Content Include="Screenshots\add with error.PNG" />
+    <Content Include="Screenshots\add with success.png" />
+    <Content Include="Screenshots\phonebook.PNG" />
+    <Content Include="Screenshots\search.PNG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
