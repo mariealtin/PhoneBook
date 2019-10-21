@@ -149,6 +149,8 @@
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\EntryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\api\ContactService.cs" />
+    <Compile Include="Services\api\IContactService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

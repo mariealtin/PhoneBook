@@ -1,6 +1,7 @@
 ﻿using PhoneBook.Database;
 using PhoneBook.Database.Entities;
 using PhoneBook.Models;
+using PhoneBook.Services.api;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -9,41 +10,10 @@ namespace PhoneBook.Controllers
 {
     public class PhoneBookController : ApiController
     {
+        private IContactService contactService = new ContactService();
         public IHttpActionResult GetAllContacts()
         {
-            IList<ContactViewModel> contacts = null;
-
-            using (var context = new PhoneBookContext())
-            {
-                contacts = context.Contacts
-                    .Select(x => new ContactViewModel()
-                    {
-                        ContactId = x.ContactId,
-                        FirstName = x.FirstName,
-                        LastName = x.LastName
-                    })
-                    .OrderBy(x => x.LastName)
-                    .ToList<ContactViewModel>();
-
-                if (contacts.Any())
-                {
-                    foreach (var contact in contacts)
-                    {
-                        var entries = context.Entries
-                            .Where(x => x.ContactId == contact.ContactId)
-                            .Select(e => new EntryViewModel()
-                            {
-                                ContactId = e.ContactId,
-                                EntryId = e.EntryId,
-                                Descr = e.Descr,
-                                ContactNum = e.ContactNum
-                            })
-                            .OrderBy(e => e.Descr)
-                            .ToList<EntryViewModel>();
-                        contact.Entries = entries.ToList<EntryViewModel>();
-                    }
-                }
-            }
+            IList<ContactViewModel> contacts = contactService.GetContacts(null);
 
             if(!contacts.Any())
             {
@@ -55,36 +25,7 @@ namespace PhoneBook.Controllers
 
         public IHttpActionResult GetAllContacts(string searchTerm)
         {
-            IList<ContactViewModel> contacts = null;
-
-            using (var context = new PhoneBookContext())
-            {
-                contacts = context.Contacts
-                    .Where(x => x.FirstName.Contains(searchTerm) || x.LastName.Contains(searchTerm))
-                    .Select(x => new ContactViewModel()
-                    {
-                        ContactId = x.ContactId,
-                        FirstName = x.FirstName,
-                        LastName = x.LastName
-                    }).ToList<ContactViewModel>();
-
-                if (contacts.Any())
-                {
-                    foreach (var contact in contacts)
-                    {
-                        var entries = context.Entries
-                            .Where(x => x.ContactId == contact.ContactId)
-                            .Select(e => new EntryViewModel()
-                            {
-                                ContactId = e.ContactId,
-                                EntryId = e.EntryId,
-                                Descr = e.Descr,
-                                ContactNum = e.ContactNum
-                            }).ToList<EntryViewModel>();
-                        contact.Entries = entries.ToList<EntryViewModel>();
-                    }
-                }
-            }
+            IList<ContactViewModel> contacts = contactService.GetContacts(searchTerm);
 
             if (!contacts.Any())
             {
@@ -97,33 +38,7 @@ namespace PhoneBook.Controllers
         // This is for edit existing contact, not implemented 
         public IHttpActionResult GetContact(int contactId)
         {
-            ContactViewModel contact = null;
-
-            using (var context = new PhoneBookContext())
-            {
-                contact = context.Contacts
-                    .Where(x => x.ContactId == contactId)
-                    .Select(x => new ContactViewModel()
-                    {
-                        ContactId = x.ContactId,
-                        FirstName = x.FirstName,
-                        LastName = x.LastName
-                    }).FirstOrDefault();
-
-                if (contact != null)
-                {
-                    var entries = context.Entries
-                        .Where(x => x.ContactId == contact.ContactId)
-                        .Select(e => new EntryViewModel()
-                        {
-                            ContactId = e.ContactId,
-                            EntryId = e.EntryId,
-                            Descr = e.Descr,
-                            ContactNum = e.ContactNum
-                        }).ToList<EntryViewModel>();
-                    contact.Entries = entries.ToList<EntryViewModel>();
-                }
-            }
+            ContactViewModel contact = contactService.GetContact(contactId);
 
             if (contact == null)
             {
@@ -140,33 +55,10 @@ namespace PhoneBook.Controllers
                 return BadRequest("Invalid data");
             }
 
-            IEnumerable<Entry> entries = null;
-            if(contact.Entries.Any())
+            int result = contactService.AddContact(contact);
+            if (result == 1)
             {
-                entries = contact.Entries.Select(e => new Entry()
-                {
-                    Descr = e.Descr,
-                    ContactNum = e.ContactNum
-                });
-            }
-
-            using(var context = new PhoneBookContext())
-            {
-                context.Contacts.Add(new Contact()
-                {
-                    FirstName = contact.FirstName,
-                    LastName = contact.LastName,
-                    Entries = entries.ToList()
-                });
-
-                try
-                {
-                    context.SaveChanges();
-                }
-                catch
-                {
-                    return BadRequest("One or more errors occurred during save");
-                }
+                return BadRequest("One or more errors occurred during save");
             }
             
             return Ok();
